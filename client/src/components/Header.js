@@ -13,8 +13,12 @@ const Header = () => {
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
                 <Nav className="ml-auto">
-                        <Nav.Link href="#features"><i className="fas fa-shopping-cart"></i> Cart</Nav.Link>
-                        <Nav.Link href="#pricing"><i className="fas fa-user"></i> Sign In</Nav.Link>
+                    <LinkContainer to="/cart">
+                            <Nav.Link><i className="fas fa-shopping-cart"></i> Cart</Nav.Link>
+                    </LinkContainer>
+                    <LinkContainer to="/cart">
+                            <Nav.Link><i className="fas fa-user"></i> Sign In</Nav.Link>
+                    </LinkContainer>    
                 </Nav>
             </Navbar.Collapse>
             </Container>    
