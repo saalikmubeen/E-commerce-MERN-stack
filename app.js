@@ -12,32 +12,10 @@ mongoose.connect("mongodb://localhost/react-E-commerce", {
 }).then((con) => console.log(`Connected to mongoDB: ${con.connection.host}`))
     .catch((err) => console.error(`Error:  ${err.message}`));
 
-const Product = require("./models/Product"); 
 
+const productRoutes = require("./routes/productRoutes");
 
-app.get("/api/products", async (req, res) => {
-    try{
-        const products = await Product.find();
-        res.status(200).json(products);
-    } catch (err) {
-        res.status(400).json({error: err.message})
-    }
-})
-
-
-app.get("/api/products/:id", async (req, res) => {
-    try{
-        const product = await Product.findById(req.params.id);
-
-        if (!product) {
-            res.status(404).json({ error: "Product not found" });
-        }
-        
-        res.status(200).json(product);
-    } catch (err) {
-        res.status(400).json({error: err.message})
-    }
-})
+app.use("/api/products", productRoutes);
 
 
 const PORT = process.env.PORT || 5000;
