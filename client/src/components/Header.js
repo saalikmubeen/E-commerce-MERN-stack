@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 
 const Header = () => {
     const cartItems = useSelector((state) => state.cartItems);
-    const items = cartItems ? cartItems.length : undefined;
+    const items = cartItems && cartItems.length > 0 ? cartItems.length : undefined;
     return (
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
             <Container>
