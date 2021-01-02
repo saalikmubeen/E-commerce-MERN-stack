@@ -1,22 +1,30 @@
-const cartReducer = (state = [], action) => {
+const cartReducer = (state = {cart: []}, action) => {
     switch (action.type) {
         case "ADD_TO_CART":
-            const alreadyExists = state.some((item) => item._id === action.payload._id);
+            const alreadyExists = state.cart.some((item) => item._id === action.payload._id);
 
             if (alreadyExists) {
-                return state.map((item) => {
+                const cartItems = state.cart.map((item) => {
                     if (item._id === action.payload._id) {
                         return { ...item, qty: action.payload.qty }
                     } else {
                         return item
                     }
                 })
+                return { cart: cartItems };
             }
 
-            return [...state, action.payload]
+            return { cart: [...state.cart, action.payload] }
         
         case "REMOVE_FROM_CART":
-            return state.filter((item) => item._id !== action.id);
+            const updatedItems = state.cart.filter((item) => item._id !== action.id);
+            return { cart: updatedItems }
+        
+        case "ADD_SHIPPING_ADDRESS":
+            return { ...state, shippingAddress: action.payload }
+        
+        case "SELECT_PAYMENT_METHOD":
+            return {...state, paymentMethod: action.payload}
         default:
             return state
     }

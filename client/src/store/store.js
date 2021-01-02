@@ -5,13 +5,18 @@ import thunk from 'redux-thunk';
 import { productListReducer, productDetailReducer } from '../reducers/productReducers';
 import { cartReducer } from '../reducers/cartReducers';
 import { userLoginReducer, userRegisterReducer, userProfileReducer, userUpdateReducer } from '../reducers/userReducers';
+import { createOrderReducer } from '../reducers/orderReducers';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const cart = localStorage.getItem("cartItems") ? JSON.parse(localStorage.getItem("cartItems")) : [];
 const user = localStorage.getItem("currentUser") ? JSON.parse(localStorage.getItem("currentUser")) : undefined;
+const shippingAddress = localStorage.getItem("shippingAddress") ? JSON.parse(localStorage.getItem("shippingAddress")) : undefined;
+const paymentMethod = localStorage.getItem("paymentMethod");
 
-const initialState = { cartItems: cart, loginUser: {currentUser: user} }
+const initialState = {
+    cartItems: { cart: cart, shippingAddress: shippingAddress, paymentMethod: paymentMethod }, loginUser: { currentUser: user }
+}
 
 const store = createStore(
     combineReducers({
@@ -21,7 +26,8 @@ const store = createStore(
         loginUser: userLoginReducer,
         registerUser: userRegisterReducer,
         userProfile: userProfileReducer,
-        updateUser: userUpdateReducer
+        updateUser: userUpdateReducer,
+        createOrder: createOrderReducer
     }),
     initialState,
     composeEnhancers(applyMiddleware(thunk))

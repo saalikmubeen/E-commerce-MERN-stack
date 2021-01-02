@@ -7,9 +7,9 @@ import { logoutUser } from '../actions/userActions';
 
 const Header = () => {
     const dispatch = useDispatch();
-    const cartItems = useSelector((state) => state.cartItems);
+    const {cart} = useSelector((state) => state.cartItems);
     const { currentUser } = useSelector((state) => state.loginUser);
-    const items = cartItems && cartItems.length > 0 ? cartItems.length : undefined;
+    const items = cart && cart.length > 0 ? cart.length : undefined;
     return (
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
             <Container>

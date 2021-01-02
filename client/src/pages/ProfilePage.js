@@ -38,7 +38,7 @@ const ProfilePage = ({ history }) => {
             setMessage("Passwords should match");
         } else {
             setMessage("");
-            dispatch(updateUser({ name, email, password }))
+            dispatch(updateUser({ name, email, password }));
         }
     }
 

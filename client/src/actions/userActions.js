@@ -25,6 +25,10 @@ const logoutUser = () => {
     return async function (dispatch) {
         dispatch({ type: "LOGOUT_USER" });
 
+        dispatch({ type: "USER_UPDATE_RESET" });
+
+        dispatch({ type: "USER_PROFILE_RESET" });
+
         localStorage.removeItem("currentUser");
     }
 }

@@ -9,6 +9,9 @@ import CartPage from './pages/CartPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import ProfilePage from './pages/ProfilePage';
+import ShippingPage from './pages/ShippingPage';
+import PaymentMethodPage from './pages/PaymentMethodPage';
+import PlaceOrderPage from './pages/PlaceOrderPage';
 
 function App() {
   return (
@@ -22,7 +25,10 @@ function App() {
                     <Route path="/cart/:id?" exact component={CartPage} />
                     <Route path="/login" exact component={LoginPage} />
                     <Route path="/register" exact component={RegisterPage} />
-                    <Route path="/profile" exact component={ ProfilePage}/>
+                    <Route path="/profile" exact component={ProfilePage} />
+                    <Route path="/shipping" exact component={ShippingPage} />
+                    <Route path="/payment" exact component={PaymentMethodPage} />
+                    <Route path="/placeOrder" exact component={ PlaceOrderPage}/>
                 </Switch>       
             </Container>
         </main>

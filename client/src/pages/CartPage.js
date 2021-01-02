@@ -5,19 +5,29 @@ import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import { addToCart, removeFromCart } from '../actions/cartActions';
 
-const CartPage = () => {
+const CartPage = ({ history }) => {
     const dispatch = useDispatch();
-    const cartItems = useSelector((state) => state.cartItems);
+    const { cart } = useSelector((state) => state.cartItems);
+    const { currentUser } = useSelector((state) => state.loginUser);
+    
+    const proceedToCheckOut = () => { 
+        if (!currentUser) {
+            history.push("/login");
+        } else {
+            history.push("/shipping")
+        }
+
+    }
 
     return (
         <Row>
             <Col md={8}>
                 <h1>Shopping Cart</h1>
-                {cartItems.length === 0 ? (
+                {cart.length === 0 ? (
                 <Message>Your cart is empty <Link to='/'>Go Back</Link></Message>
             ) : (
             <ListGroup variant='fluid'>
-            {cartItems.map((item) => (
+            {cart.map((item) => (
                 <ListGroup.Item key={item._id}>
                     <Row>
                         <Col md={2}>
@@ -52,11 +62,11 @@ const CartPage = () => {
                 <Card>
                     <ListGroup variant='flush'>
                         <ListGroup.Item>
-                            <h5> Total Items: {cartItems.reduce((acc, next) => acc += Number(next.qty), 0)}</h5>
-                            <h4>Total Price: ${ cartItems.reduce((acc, next) => acc += (Number(next.price) * Number(next.qty)), 0)}</h4>
+                            <h5> Total Items: {cart.reduce((acc, next) => acc += Number(next.qty), 0)}</h5>
+                            <h4>Total Price: ${ cart.reduce((acc, next) => acc += (Number(next.price) * Number(next.qty)), 0)}</h4>
                         </ListGroup.Item>
                         <ListGroup.Item>
-                            <Button type='button' className='btn-block' disabled={cartItems.length === 0}>
+                            <Button type='button' className='btn-block' disabled={cart.length === 0} onClick={proceedToCheckOut}>
                                 Proceed To Checkout
                             </Button>
                         </ListGroup.Item>
