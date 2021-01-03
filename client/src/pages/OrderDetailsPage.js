@@ -1,18 +1,23 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom'
-import { Row, Col, ListGroup, Image, Card, Button } from 'react-bootstrap';
+import { Row, Col, ListGroup, Image, Card } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { PayPalButton } from "react-paypal-button-v2";
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import { orderDetails, payOrder } from '../actions/orderActions';
 
-const OrderDetailsPage = ({ match }) => {
+const OrderDetailsPage = ({ match, history }) => {
     const dispatch = useDispatch();
     const { loading, error, order, success } = useSelector((state) => state.orderDetails); 
     const { loading: payOrderLoading, error: payOrderError, success: payOrderSuccess } = useSelector((state) => state.payOrder);
+    const { currentUser } = useSelector((state) => state.loginUser);
 
     useEffect(() => {
+        if (!currentUser) {
+            history.push("/login");
+        }
+
         if (!success) {
             dispatch(orderDetails(match.params.id));
         }
@@ -26,7 +31,7 @@ const OrderDetailsPage = ({ match }) => {
             dispatch({ type: "PAY_ORDER_RESET" });
         }
 
-    }, [dispatch, payOrderSuccess, match, success])
+    }, [dispatch, payOrderSuccess, match, success, history, currentUser, order])
 
     const successPaymentHandler = (paymentResult) => {
         const paymentResultObj = {

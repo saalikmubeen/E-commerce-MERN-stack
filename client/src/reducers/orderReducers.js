@@ -19,6 +19,8 @@ const myOrdersReducer = (state = {}, action) => {
             return { loading: false, success: true, orders: action.payload }
         case "MY_ORDERS_ERROR":
             return { loading: false, error: action.payload }
+        case "MY_ORDERS_RESET":
+            return {}
         default: 
             return state
     }
@@ -32,6 +34,8 @@ const orderDetailsReducer = (state = {}, action) => {
             return { loading: false, success: true, order: action.payload }
         case "ORDER_DETAILS_ERROR":
             return { loading: false, error: action.payload }
+        case "ORDER_DETAILS_RESET":
+            return {}
         default: 
             return state
     }

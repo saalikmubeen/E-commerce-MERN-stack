@@ -29,6 +29,10 @@ const logoutUser = () => {
 
         dispatch({ type: "USER_PROFILE_RESET" });
 
+        dispatch({ type: "ORDER_DETAILS_RESET" });
+
+        dispatch({ type: "MY_ORDERS_RESET" });
+
         localStorage.removeItem("currentUser");
     }
 }

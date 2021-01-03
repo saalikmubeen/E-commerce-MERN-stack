@@ -36,7 +36,7 @@ const ProfilePage = ({ history }) => {
         if (!orderSuccess) {
             dispatch(getMyOrders());
         }
-    }, [dispatch, history, currentUser, userDetails])
+    }, [dispatch, history, currentUser, userDetails, orderSuccess])
 
     const handleSubmit = (e) => {
         e.preventDefault();

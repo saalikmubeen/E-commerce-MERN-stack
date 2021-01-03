@@ -1,4 +1,4 @@
-const cartReducer = (state = {cart: []}, action) => {
+const cartReducer = (state = { cart: [], shippingAddress: {}, paymentMethod: "" }, action) => {
     switch (action.type) {
         case "ADD_TO_CART":
             const alreadyExists = state.cart.some((item) => item._id === action.payload._id);
@@ -14,11 +14,14 @@ const cartReducer = (state = {cart: []}, action) => {
                 return { cart: cartItems };
             }
 
-            return { cart: [...state.cart, action.payload] }
+            return { ...state, cart: [...state.cart, action.payload] }
         
         case "REMOVE_FROM_CART":
             const updatedItems = state.cart.filter((item) => item._id !== action.id);
             return { cart: updatedItems }
+        
+        case "RESET_CART":
+            return { ...state, cart: [] }
         
         case "ADD_SHIPPING_ADDRESS":
             return { ...state, shippingAddress: action.payload }

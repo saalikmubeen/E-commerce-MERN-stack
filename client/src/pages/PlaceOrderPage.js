@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap'
 import Message from '../components/Message';
 import Loader from '../components/Loader'
+import CheckOutSteps from "../components/CheckOutSteps";
 import { createOrder } from '../actions/orderActions';
 
 const PlaceOrderPage = ({ history }) => {
@@ -45,15 +46,22 @@ const PlaceOrderPage = ({ history }) => {
     }
 
     const { loading, success, order, error } = useSelector((state) => state.createOrder);
+    const { currentUser } = useSelector((state) => state.loginUser);
 
     useEffect(() => {
+        if (!currentUser) {
+            history.push("/login");
+        }
+
         if (success) {
+            dispatch({ type: "RESET_CART" });
             history.push(`/orders/${order._id}`);
         }
-    }, [history, success, order])
+    }, [history, success, order, currentUser, dispatch])
 
     return (
         <>
+            <CheckOutSteps step1 step2 step3 step4/>
             {loading ? <Loader /> :
                 <Row>
                     <Col md={8}>

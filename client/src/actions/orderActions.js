@@ -59,6 +59,10 @@ const orderDetails = (id) => {
             const { token } = currentUser;
 
             const { data } = await axios.get(`/api/orders/${id}`, { headers: { Authorization: `Bearer ${token}` } });
+            
+            if (data.error) {
+                throw new Error(data.error);
+            }
 
             dispatch({ type: "ORDER_DETAILS_SUCCESS", payload: data.order });
         } catch (err) {
