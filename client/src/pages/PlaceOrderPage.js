@@ -50,7 +50,7 @@ const PlaceOrderPage = ({ history }) => {
         if (success) {
             history.push(`/orders/${order._id}`);
         }
-    }, [history, success])
+    }, [history, success, order])
 
     return (
         <>

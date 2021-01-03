@@ -12,6 +12,7 @@ import ProfilePage from './pages/ProfilePage';
 import ShippingPage from './pages/ShippingPage';
 import PaymentMethodPage from './pages/PaymentMethodPage';
 import PlaceOrderPage from './pages/PlaceOrderPage';
+import OrderDetailsPage from './pages/OrderDetailsPage';
 
 function App() {
   return (
@@ -28,7 +29,8 @@ function App() {
                     <Route path="/profile" exact component={ProfilePage} />
                     <Route path="/shipping" exact component={ShippingPage} />
                     <Route path="/payment" exact component={PaymentMethodPage} />
-                    <Route path="/placeOrder" exact component={ PlaceOrderPage}/>
+                    <Route path="/placeOrder" exact component={PlaceOrderPage} />
+                    <Route path="/orders/:id" exact component={ OrderDetailsPage}/>
                 </Switch>       
             </Container>
         </main>
