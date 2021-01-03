@@ -3,19 +3,10 @@ const router = new express.Router();
 
 const User = require('../models/User');
 
-const isLoggedIn = require("../middleware/auth");
+const { isLoggedIn, Admin } = require("../middleware/auth");
 
 
-router.get("/", async (req, res) => {
-    try {
-        const users = await User.find({}).select("-password");
-        res.status(200).json({ users: users })
-    } catch (err) {
-        res.json({ error: err.message })
-    }
-});
-
-
+// create a user
 router.post("/", async (req, res) => {
     try {
         const { name, email, password } = req.body;
@@ -46,7 +37,7 @@ router.post("/", async (req, res) => {
     }
 })
 
-
+// user login
 router.post("/login", async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -80,6 +71,7 @@ router.post("/login", async (req, res) => {
 });
 
 
+// get user profile
 router.get("/profile", isLoggedIn, async (req, res) => {
     res.status(200).json({
         user: {
@@ -92,6 +84,7 @@ router.get("/profile", isLoggedIn, async (req, res) => {
 })
 
 
+// update user profile
 router.put("/profile", isLoggedIn, async (req, res) => {
     try {
         const user = await User.findById(req.user._id);
@@ -128,5 +121,72 @@ router.put("/profile", isLoggedIn, async (req, res) => {
         })
     }
 })
+
+
+// get all users
+router.get("/", isLoggedIn, Admin, async (req, res) => {
+    try {
+        const users = await User.find({}).select("-password");
+        res.status(200).json({ users: users })
+    } catch (err) {
+        res.json({ error: err.message })
+    }
+});
+
+
+// update a user
+router.put("/:id", isLoggedIn, Admin, async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+
+        if (!user) {
+            res.status(404);
+            throw new Error("User doesn't exist");
+        }
+
+        const { name, email, isAdmin  } = req.body;
+
+        user.name = name || user.name;
+        user.email = email || user.email;
+        user.isAdmin = isAdmin
+
+
+        const updatedUser = await user.save();
+
+        res.json({
+            user: {
+                _id: updatedUser._id,
+                name: updatedUser.name,
+                email: updatedUser.email,
+                idAdmin: updatedUser.isAdmin,
+            }
+        });
+    } catch (err) {
+        res.json({
+            error: err.message
+        })
+    }
+})
+
+
+// delete a user
+router.delete("/:id", isLoggedIn, Admin, async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+
+        if (!user) {
+            res.status(404);
+            throw new Error("User doesn't exist");
+        }
+
+        const deletedUser = await User.findByIdAndDelete(req.params.id);
+
+        res.json({ deletedUser: deletedUser });
+
+    } catch (err) {
+        res.json({ error: err.message });
+    }
+})
+
 
 module.exports = router;
