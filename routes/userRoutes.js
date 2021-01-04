@@ -134,6 +134,23 @@ router.get("/", isLoggedIn, Admin, async (req, res) => {
 });
 
 
+// get a user by id
+router.get("/:id", isLoggedIn, Admin, async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id).select("-password");
+
+        if (!user) {
+            res.status(404);
+            throw new Error("User not found!")
+        }
+
+        res.status(200).json({user: user});
+    } catch (err) {
+        res.json({error: err.message})
+    }
+})
+
+
 // update a user
 router.put("/:id", isLoggedIn, Admin, async (req, res) => {
     try {
