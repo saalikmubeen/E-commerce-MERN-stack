@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { Link } from 'react-router-dom'
 import { Form, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
@@ -16,6 +17,8 @@ const ProductEditPage = ({match, history}) => {
     const [countInStock, setCountInStock] = useState(0);
     const [category, setCategory] = useState("");
     const [description, setDescription] = useState("");
+    const [uploading, setUploading] = useState(false);
+    const [errorUploading, setErrorUploading] = useState(null);
 
     const { error, loading, product, success} = useSelector((state) => state.productDetail)
     const { error: updateError, loading: loadingUpdate, success: updateSuccess } = useSelector((state) => state.updateProduct);
@@ -54,6 +57,24 @@ const ProductEditPage = ({match, history}) => {
         const productObj = { name, price, image, brand, countInStock, category, description }
         
         dispatch(updateProduct(match.params.id, productObj));
+    }
+    
+  const uploadFileHandler = async (e) => {
+    const file = e.target.files[0];
+    setUploading(true)
+
+    const formData = new FormData();
+    formData.append("image", file);
+
+    try {
+      const { data } = await axios.post("/api/uploads", formData, { headers: { "Content-Type": 'multipart/form-data' } })
+      
+      setImage(data.path);
+      setUploading(false)
+    } catch (err) {
+      setErrorUploading(err.message)
+      setUploading(false);
+    }
     }
 
 
@@ -99,6 +120,15 @@ const ProductEditPage = ({match, history}) => {
                 value={image}
                 onChange={(e) => setImage(e.target.value)}
               ></Form.Control>
+              <Form.File
+                id='image-file'
+                label='Choose File'
+                custom
+                accept='image/*'
+                onChange={uploadFileHandler}
+              ></Form.File>
+                {uploading && <Loader />}
+                {errorUploading && <Message variant="danger">{errorUploading}</Message>}    
             </Form.Group>
 
             <Form.Group controlId='brand'>

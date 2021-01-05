@@ -4,6 +4,7 @@ dotenv.config();
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
+const path = require("path")
 
 mongoose.connect("mongodb://localhost/react-E-commerce", {
     useNewUrlParser: true,
@@ -24,6 +25,8 @@ app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/uploads", uploadRoutes)
+
+app.use("/uploads", express.static(path.join(__dirname, '/uploads')));
 
 
 const PORT = process.env.PORT || 5000;
