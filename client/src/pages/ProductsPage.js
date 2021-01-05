@@ -19,7 +19,7 @@ const ProductsPage = () => {
         <div>
             {loading ? <Loader /> : error ? <Message variant="danger">{error}</Message> :
                 <Row>
-                    {products.map((product) => {
+                    {products && products.map((product) => {
                         return <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
                             <Product product={product} />
                         </Col>

@@ -15,6 +15,8 @@ import PlaceOrderPage from './pages/PlaceOrderPage';
 import OrderDetailsPage from './pages/OrderDetailsPage';
 import UserListPage from './pages/UserListPage';
 import UserEditPage from './pages/UserEditPage';
+import ProductListPage from './pages/ProductListPage';
+import ProductEditPage from './pages/ProductEditPage';
 
 function App() {
   return (
@@ -34,7 +36,9 @@ function App() {
                     <Route path="/placeOrder" exact component={PlaceOrderPage} />
                     <Route path="/orders/:id" exact component={OrderDetailsPage} />
                     <Route path="/admin/users" exact component={UserListPage} />
-                    <Route path="/admin/users/:id/edit" exact component={ UserEditPage}/>
+                    <Route path="/admin/users/:id/edit" exact component={UserEditPage} />
+                    <Route path="/admin/products" exact component={ProductListPage} />
+                     <Route path="/admin/products/:id/edit" exact component={ ProductEditPage}/>
                 </Switch>       
             </Container>
         </main>
