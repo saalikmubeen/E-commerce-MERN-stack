@@ -112,4 +112,30 @@ const createProduct = (name, email, password) => {
     }
 }
 
-export { fetchProductList, fetchProductDetail, deleteProduct, updateProduct, createProduct }
+
+const createProductReview = (id, reviewObj) => {
+    return async function (dispatch, getState) {
+        try {
+            dispatch({ type: "PRODUCT_REVIEW_CREATE_REQUEST" });
+
+            const { currentUser } = getState().loginUser;
+        
+            if (!currentUser) {
+                throw new Error("You are not logged in!")
+            }
+
+            const { data } = await axios.post(`/api/products/${id}/reviews`, reviewObj, { headers: { Authorization: `Bearer ${currentUser.token}` } });
+
+            if (data.error) {
+                throw new Error(data.error)
+            }
+
+            dispatch({ type: "PRODUCT_REVIEW_CREATE_SUCCESS"});
+        } catch (err) {
+            dispatch({ type: "PRODUCT_REVIEW_CREATE_ERROR", payload: err.response ? err.response.data.error : err.message });
+        }
+    }
+}
+
+
+export { fetchProductList, fetchProductDetail, deleteProduct, updateProduct, createProduct, createProductReview }

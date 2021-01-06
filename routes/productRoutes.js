@@ -124,4 +124,46 @@ router.delete("/:id", isLoggedIn, Admin, async(req, res) => {
 })
 
 
+router.post("/:id/reviews", isLoggedIn, async (req, res) => {
+    try {
+        const product = await Product.findById(req.params.id);
+
+        if (!product) {
+            res.status(404).json({
+                error: "Product not found"
+            });
+        }
+
+        const alreadyReviewed = product.reviews.some((review) => review.user.toString() === req.user._id.toString());
+
+        if (alreadyReviewed) {
+            res.status(400);
+            throw new Error("You have already reviewed this product!")
+        }
+
+         const reviewObj =  {
+            name: req.user.name,
+            rating: Number(req.body.rating),
+            comment: req.body.comment,
+            user: req.user._id
+        }
+
+        product.reviews = [...product.reviews, reviewObj];
+
+        const numReviews = product.reviews.length;
+
+        const avgRating = product.reviews.reduce((acc, next) => acc + next.rating, 0) / numReviews;
+
+        product.numReviews = numReviews;
+        product.rating = avgRating;
+
+        const updatedProduct = await product.save();
+
+        res.status(201).json({ product: updatedProduct });
+    } catch (err) {
+        res.json({ error: err.message })
+    }
+})
+
+
 module.exports = router;

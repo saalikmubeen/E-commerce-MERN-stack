@@ -44,7 +44,7 @@ const Rating = ({ rating, numReviews, color }) => {
             >    
             </i>
 
-            <span>{ numReviews } reviews</span>
+            {numReviews && <span>{ numReviews } reviews</span>}
 
         </div>
     )
