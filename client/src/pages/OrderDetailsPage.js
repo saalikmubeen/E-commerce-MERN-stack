@@ -1,16 +1,17 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom'
-import { Row, Col, ListGroup, Image, Card } from 'react-bootstrap';
+import { Row, Col, ListGroup, Image, Card, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { PayPalButton } from "react-paypal-button-v2";
 import Message from '../components/Message';
 import Loader from '../components/Loader';
-import { orderDetails, payOrder } from '../actions/orderActions';
+import { orderDetails, payOrder, deliverOrder } from '../actions/orderActions';
 
 const OrderDetailsPage = ({ match, history }) => {
     const dispatch = useDispatch();
     const { loading, error, order, success } = useSelector((state) => state.orderDetails); 
     const { loading: payOrderLoading, error: payOrderError, success: payOrderSuccess } = useSelector((state) => state.payOrder);
+    const { loading: deliverOrderLoading, error: deliverOrderError, success: deliverOrderSuccess } = useSelector((state) => state.deliverOrder);
     const { currentUser } = useSelector((state) => state.loginUser);
 
     useEffect(() => {
@@ -22,16 +23,21 @@ const OrderDetailsPage = ({ match, history }) => {
             dispatch(orderDetails(match.params.id));
         }
 
-        if (success && order._id !== match.params.id) {
+      if (success && order._id !== match.params.id) {
             dispatch(orderDetails(match.params.id));
-        }
+      }
 
         if (payOrderSuccess) {
             dispatch(orderDetails(match.params.id));
             dispatch({ type: "PAY_ORDER_RESET" });
-        }
+      }
+      
+      if (deliverOrderSuccess) {
+        dispatch(orderDetails(match.params.id));
+        dispatch({type: "DELIVER_ORDER_RESET"})
+      }
 
-    }, [dispatch, payOrderSuccess, match, success, history, currentUser, order])
+    }, [dispatch, payOrderSuccess, match, success, history, currentUser, order, deliverOrderSuccess])
 
     const successPaymentHandler = (paymentResult) => {
         const paymentResultObj = {
@@ -43,10 +49,17 @@ const OrderDetailsPage = ({ match, history }) => {
 
         dispatch(payOrder(match.params.id, paymentResultObj));
     }
+    
+    
+    const deliverOrderHandler = () => {
+      dispatch(deliverOrder(match.params.id));
+    }
+
 
     return (
         <>
-            {loading || payOrderLoading ? <Loader /> : error ? <Message variant="danger">{error}</Message> : order && 
+            {deliverOrderError && <Message variant="danger">{deliverOrderError}</Message>}     
+            {loading || payOrderLoading || deliverOrderLoading ? <Loader /> : error ? <Message variant="danger">{error}</Message> : order && 
             <div>
             <h4>Order {order._id}</h4>    
             <Row>   
@@ -161,21 +174,20 @@ const OrderDetailsPage = ({ match, history }) => {
                     />
                 </ListGroup.Item>
               )}
-              {/* {loadingDeliver && <Loader />}
-              {userInfo &&
-                userInfo.isAdmin &&
+              {currentUser &&
+                currentUser.isAdmin &&
                 order.isPaid &&
                 !order.isDelivered && (
                   <ListGroup.Item>
                     <Button
                       type='button'
                       className='btn btn-block'
-                      onClick={deliverHandler}
+                      onClick={deliverOrderHandler}
                     >
                       Mark As Delivered
                     </Button>
                   </ListGroup.Item>
-                )} */}
+                )}
             </ListGroup>
           </Card>
         </Col>
