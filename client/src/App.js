@@ -27,6 +27,7 @@ function App() {
             <Container>
                 <Switch>
                     <Route path="/" exact component={ProductsPage} />
+                    <Route path="/search/:keyword" exact component={ProductsPage} />           
                     <Route path="/product/:id" exact component={ProductDetailPage} />
                     <Route path="/cart/:id?" exact component={CartPage} />
                     <Route path="/login" exact component={LoginPage} />

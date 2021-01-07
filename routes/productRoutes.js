@@ -10,7 +10,19 @@ const {
 
 router.get("/", async(req, res) => {
     try {
-        const products = await Product.find();
+        const {
+            keyword
+        } = req.query;
+
+        const search = keyword ? {
+            name: {
+                $regex: keyword,
+                $options: 'i'
+            }
+        } : {};
+
+        const products = await Product.find(search);
+
         res.status(200).json(products);
     } catch (err) {
         res.status(500).json({
@@ -39,7 +51,7 @@ router.get("/:id", async(req, res) => {
 })
 
 
-router.post("/", isLoggedIn, Admin, async (req, res) => {
+router.post("/", isLoggedIn, Admin, async(req, res) => {
     try {
         const product = await Product.create({
             name: 'Sample name',
@@ -53,10 +65,14 @@ router.post("/", isLoggedIn, Admin, async (req, res) => {
             description: 'Sample description'
         });
 
-        res.status(201).json({ product: product });
+        res.status(201).json({
+            product: product
+        });
 
     } catch (err) {
-        res.json({ error: err.message })
+        res.json({
+            error: err.message
+        })
     }
 })
 
@@ -124,7 +140,7 @@ router.delete("/:id", isLoggedIn, Admin, async(req, res) => {
 })
 
 
-router.post("/:id/reviews", isLoggedIn, async (req, res) => {
+router.post("/:id/reviews", isLoggedIn, async(req, res) => {
     try {
         const product = await Product.findById(req.params.id);
 
@@ -141,7 +157,7 @@ router.post("/:id/reviews", isLoggedIn, async (req, res) => {
             throw new Error("You have already reviewed this product!")
         }
 
-         const reviewObj =  {
+        const reviewObj = {
             name: req.user.name,
             rating: Number(req.body.rating),
             comment: req.body.comment,
@@ -159,9 +175,13 @@ router.post("/:id/reviews", isLoggedIn, async (req, res) => {
 
         const updatedProduct = await product.save();
 
-        res.status(201).json({ product: updatedProduct });
+        res.status(201).json({
+            product: updatedProduct
+        });
     } catch (err) {
-        res.json({ error: err.message })
+        res.json({
+            error: err.message
+        })
     }
 })
 

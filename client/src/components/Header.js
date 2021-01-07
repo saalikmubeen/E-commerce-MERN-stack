@@ -3,6 +3,7 @@ import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { logoutUser } from '../actions/userActions';
+import SearchBox from './SearchBox';
 
 
 const Header = () => {
@@ -18,6 +19,7 @@ const Header = () => {
                 </LinkContainer>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
+                <SearchBox/>
                 <Nav className="ml-auto">
                     <LinkContainer to="/cart" className="cart">
                             <Nav.Link>

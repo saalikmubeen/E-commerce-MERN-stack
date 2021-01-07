@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-const fetchProductList = () => {
+const fetchProductList = (keyword) => {
     return async function (dispatch) {
         try {
             dispatch({ type: "PRODUCT_LIST_REQUEST" });
 
-            const res = await axios.get("/api/products");
+            const res = await axios.get(`/api/products?keyword=${keyword}`);
         
             dispatch({ type: "PRODUCT_LIST_SUCCESS", payload: res.data });
         } catch (err) {

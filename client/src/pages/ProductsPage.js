@@ -6,14 +6,19 @@ import Message from '../components/Message';
 import Loader from '../components/Loader';
 import { fetchProductList } from '../actions/productActions';
 
-const ProductsPage = () => {
+const ProductsPage = ({ match }) => {
+    const { keyword } = match.params;
     const dispatch = useDispatch();
     const productList = useSelector((state) => state.productList);
     const { loading, products, error } = productList;
 
     useEffect(() => {
-        dispatch(fetchProductList());
-    }, [dispatch])
+        if (keyword) {
+            dispatch(fetchProductList(keyword));
+        } else {
+            dispatch(fetchProductList(""));
+        }
+    }, [dispatch, keyword])
     
     return (
         <div>
