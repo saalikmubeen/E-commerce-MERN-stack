@@ -22,7 +22,7 @@ const CartPage = ({ history }) => {
 
     return (
         <Row>
-            <Meta title="My Cart"/>
+            <Meta title="Welcome to ShopLinee | My Cart"/>
             <Col md={8}>
                 <h1>Shopping Cart</h1>
                 {cart.length === 0 ? (

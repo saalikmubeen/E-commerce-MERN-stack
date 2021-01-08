@@ -30,7 +30,7 @@ const LoginPage = ({ history }) => {
 
     return (
         <FormContainer>
-            <Meta title="Welcome to E-commerce App | Login"/>
+            <Meta title="Welcome to ShopLinee | Login"/>
             {error && <Message variant="danger">{error}</Message>}
             {loading ? <Loader /> :
                 <>

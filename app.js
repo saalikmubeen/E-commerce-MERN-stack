@@ -6,7 +6,9 @@ const app = express();
 const mongoose = require('mongoose');
 const path = require("path")
 
-mongoose.connect("mongodb://localhost/react-E-commerce", {
+const db_url = process.env.NODE_ENV === "production" ? process.env.MONGODB_URL : "mongodb://localhost/react-E-commerce";
+
+mongoose.connect(db_url, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
@@ -38,4 +40,4 @@ if (process.env.NODE_ENV === "production") {
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(5000, () => console.log(`STARTING SERVER AT PORT ${PORT}`));
+app.listen(PORT, () => console.log(`STARTING SERVER AT PORT ${PORT}`));
