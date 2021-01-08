@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import { addToCart, removeFromCart } from '../actions/cartActions';
+import Meta from '../components/Meta';
 
 const CartPage = ({ history }) => {
     const dispatch = useDispatch();
@@ -21,6 +22,7 @@ const CartPage = ({ history }) => {
 
     return (
         <Row>
+            <Meta title="My Cart"/>
             <Col md={8}>
                 <h1>Shopping Cart</h1>
                 {cart.length === 0 ? (

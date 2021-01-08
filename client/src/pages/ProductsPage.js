@@ -8,6 +8,7 @@ import Loader from '../components/Loader';
 import { fetchProductList } from '../actions/productActions';
 import Paginate from '../components/Paginate';
 import ProductCarousel from "../components/ProductCarousel";
+import Meta from '../components/Meta';
 
 const ProductsPage = ({ match }) => {
     const { keyword, pageNumber } = match.params;
@@ -21,6 +22,7 @@ const ProductsPage = ({ match }) => {
     
     return (
         <div>
+            <Meta/>
             {!keyword ? <ProductCarousel/> : <Link to='/' className='btn btn-light'>Go Back</Link>}
             {loading ? <Loader /> : error ? <Message variant="danger">{error}</Message> :
                 <>

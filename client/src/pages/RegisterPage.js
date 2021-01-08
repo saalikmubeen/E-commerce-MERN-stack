@@ -6,6 +6,7 @@ import FormContainer from '../components/FormContainer';
 import { registerUser } from '../actions/userActions';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
+import Meta from '../components/Meta';
 
 const LoginPage = ({ history }) => {
     const dispatch = useDispatch();
@@ -35,6 +36,7 @@ const LoginPage = ({ history }) => {
     
     return (
         <FormContainer>
+            <Meta title="Welcome to E-commerce App | Register"/>
             {error && <Message variant="danger">{error}</Message>}
             {message && <Message variant="danger">{message}</Message>}
             {loading ? <Loader /> :

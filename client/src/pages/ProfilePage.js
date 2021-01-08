@@ -6,6 +6,7 @@ import { getUserProfile, updateUser } from '../actions/userActions';
 import { getMyOrders } from '../actions/orderActions';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
+import Meta from '../components/Meta';
 
 const ProfilePage = ({ history }) => {
     const dispatch = useDispatch();
@@ -50,6 +51,7 @@ const ProfilePage = ({ history }) => {
 
     return (
         <>
+            <Meta title={ `${currentUser.name} | Profile `}/>
             <Row>
                 <Col>
                      {(loadingOrders || loading) && <Loader />}

@@ -7,6 +7,7 @@ import Loader from '../components/Loader';
 import Message from '../components/Message';
 import { fetchProductDetail, createProductReview } from '../actions/productActions';
 import { addToCart } from '../actions/cartActions';
+import Meta from '../components/Meta';
 
 const ProductDetailPage = ({ match, history }) => {
     const [qty, setQty] = useState(1)
@@ -59,7 +60,9 @@ const ProductDetailPage = ({ match, history }) => {
             <div>
                 <Link className='btn btn-light my-3' to='/'>
                     Go Back
-            </Link>
+                </Link>
+            
+                <Meta title={ product.name}/>
 
                 <Row>
 
