@@ -5,24 +5,22 @@ import Product from '../components/Product';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import { fetchProductList } from '../actions/productActions';
+import Paginate from '../components/Paginate';
 
 const ProductsPage = ({ match }) => {
-    const { keyword } = match.params;
+    const { keyword, pageNumber } = match.params;
     const dispatch = useDispatch();
     const productList = useSelector((state) => state.productList);
-    const { loading, products, error } = productList;
+    const { loading, products, error, totalPages, page } = productList;
 
     useEffect(() => {
-        if (keyword) {
-            dispatch(fetchProductList(keyword));
-        } else {
-            dispatch(fetchProductList(""));
-        }
-    }, [dispatch, keyword])
+       dispatch(fetchProductList(keyword, pageNumber));
+    }, [dispatch, keyword, pageNumber])
     
     return (
         <div>
             {loading ? <Loader /> : error ? <Message variant="danger">{error}</Message> :
+                <>
                 <Row>
                     {products && products.map((product) => {
                         return <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
@@ -30,6 +28,10 @@ const ProductsPage = ({ match }) => {
                         </Col>
                     })}
                 </Row>
+                    <Col>
+                        {totalPages > 1 && <Paginate pages={totalPages} page={page} keyword={keyword} />}
+                    </Col>    
+                </>
             }
         </div>
     )

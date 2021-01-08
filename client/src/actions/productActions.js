@@ -1,13 +1,15 @@
 import axios from 'axios';
 
-const fetchProductList = (keyword) => {
+const fetchProductList = (keyword = "", page = 1) => {
     return async function (dispatch) {
         try {
             dispatch({ type: "PRODUCT_LIST_REQUEST" });
 
-            const res = await axios.get(`/api/products?keyword=${keyword}`);
+
+            const res = await axios.get(`/api/products?keyword=${keyword}&page=${page}`);
         
-            dispatch({ type: "PRODUCT_LIST_SUCCESS", payload: res.data });
+            dispatch({ type: "PRODUCT_LIST_SUCCESS", payload: res.data.products, totalPages:  res.data.totalPages, page: res.data.page });
+        
         } catch (err) {
             // console.log(err.response.data.error);
             dispatch({ type: "PRODUCT_LIST_ERROR", payload: err.response ? err.response.data.error : err.message });

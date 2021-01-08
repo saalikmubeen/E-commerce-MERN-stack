@@ -26,8 +26,7 @@ function App() {
         <main className="py-3">
             <Container>
                 <Switch>
-                    <Route path="/" exact component={ProductsPage} />
-                    <Route path="/search/:keyword" exact component={ProductsPage} />           
+                    <Route path="/" exact component={ProductsPage} />       
                     <Route path="/product/:id" exact component={ProductDetailPage} />
                     <Route path="/cart/:id?" exact component={CartPage} />
                     <Route path="/login" exact component={LoginPage} />
@@ -41,7 +40,12 @@ function App() {
                     <Route path="/admin/users/:id/edit" exact component={UserEditPage} />
                     <Route path="/admin/products" exact component={ProductListPage} />
                     <Route path="/admin/products/:id/edit" exact component={ProductEditPage} />
-                    <Route path="/admin/orders" exact component={ OrderListPage}/>
+                    <Route path="/admin/orders" exact component={OrderListPage} />
+            
+                    <Route path="/search/:keyword" exact component={ProductsPage} />    
+                    <Route path="/page/:pageNumber" exact component={ProductsPage} />  
+                    <Route path="/search/:keyword/page/:pageNumber" exact component={ProductsPage} />    
+                    <Route path="/admin/products/:pageNumber" exact component={ProductListPage} />
                 </Switch>       
             </Container>
         </main>

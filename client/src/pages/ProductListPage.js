@@ -5,10 +5,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { fetchProductList, deleteProduct, createProduct } from '../actions/productActions';
+import Paginate from '../components/Paginate';
 
-const ProductListPage = ({ history }) => {
+const ProductListPage = ({ history, match }) => {
     const dispatch = useDispatch();
-    const { loading, error, products } = useSelector((state) => state.productList);
+    const pageNumber = match.params.pageNumber || 1;
+    const { loading, error, products, totalPages, page } = useSelector((state) => state.productList);
     const { loading: loadingDelete, success, deleteError } = useSelector((state) => state.deleteProduct);
     const { loading: loadingCreate, success: createSuccess, error: createError, product } = useSelector((state) => state.createProduct);
     const { currentUser } = useSelector((state) => state.loginUser);
@@ -17,12 +19,10 @@ const ProductListPage = ({ history }) => {
         if (!currentUser || !currentUser.isAdmin) {
             history.push("/");
         } else {
-            if (!products) {
-                dispatch(fetchProductList());
-            }
+            dispatch(fetchProductList("", pageNumber));
 
             if (success) {
-                dispatch(fetchProductList());
+                dispatch(fetchProductList("", pageNumber));
                 dispatch({ type: "PRODUCT_DELETE_RESET" })
             }
 
@@ -32,7 +32,7 @@ const ProductListPage = ({ history }) => {
             }
         }
 
-    }, [dispatch, products, history, currentUser, success, createSuccess, product])
+    }, [dispatch, history, currentUser, success, createSuccess, product, pageNumber])
     return (
         <>
       <Row className='align-items-center'>
@@ -88,6 +88,7 @@ const ProductListPage = ({ history }) => {
           </Table>
         </>
       )}
+        {totalPages > 1 && < Paginate pages={totalPages} page={page} isAdmin={currentUser.isAdmin}/>}
     </>
     )
 }

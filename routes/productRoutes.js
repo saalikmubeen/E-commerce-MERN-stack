@@ -10,9 +10,10 @@ const {
 
 router.get("/", async(req, res) => {
     try {
-        const {
-            keyword
-        } = req.query;
+
+        const limit = 2; // pageSize
+        const { keyword, page } = req.query;
+        
 
         const search = keyword ? {
             name: {
@@ -21,9 +22,12 @@ router.get("/", async(req, res) => {
             }
         } : {};
 
-        const products = await Product.find(search);
+        const totalProducts = await Product.countDocuments(search);
+        const totalPages = Math.ceil(totalProducts / limit);
 
-        res.status(200).json(products);
+        const products = await Product.find(search).limit(limit).skip((page-1) * limit);
+
+        res.status(200).json({ products, totalPages, page });
     } catch (err) {
         res.status(500).json({
             error: err.message
