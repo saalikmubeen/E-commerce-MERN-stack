@@ -182,6 +182,7 @@ const ProductDetailPage = ({ match, history }) => {
                         <Form.Control
                           as='textarea'
                           row='3'
+                          required  
                           value={comment}
                           onChange={(e) => setComment(e.target.value)}
                         ></Form.Control>
