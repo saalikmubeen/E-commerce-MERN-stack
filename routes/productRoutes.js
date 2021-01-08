@@ -11,7 +11,7 @@ const {
 router.get("/", async(req, res) => {
     try {
 
-        const limit = 2; // pageSize
+        const limit = 4; // pageSize
         const { keyword, page } = req.query;
         
 

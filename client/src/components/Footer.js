@@ -4,8 +4,8 @@ import { Container } from 'react-bootstrap';
 const Footer = () => {
     return (
         <footer>
-            <Container className="text-center">
-                Copyright &copy; E-commerce
+            <Container className="text-center mb-4">
+                Copyright &copy; ShopLinee
             </Container>
         </footer>
     )

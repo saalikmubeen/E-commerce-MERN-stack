@@ -51,7 +51,7 @@ const ProfilePage = ({ history }) => {
 
     return (
         <>
-            <Meta title={ `${currentUser.name} | Profile `}/>
+            <Meta title={ `${currentUser && currentUser.name} | Profile `}/>
             <Row>
                 <Col>
                      {(loadingOrders || loading) && <Loader />}
@@ -83,13 +83,13 @@ const ProfilePage = ({ history }) => {
                             <Form.Control type='password' placeholder='Confirm password' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
                         </Form.Group>
 
-                        <Button type='submit' variant='primary'> Update</Button>
+                        <Button type='submit' variant='primary' className="mb-4"> Update</Button>
                     </Form>
                 }
             </Col>
 
             <Col md={9}>
-                <h2>My Orders</h2>
+                <h3>My Orders</h3>
                 {orderErrors ? (
                     <Message variant='danger'>{orderErrors}</Message>
                     ) : (
