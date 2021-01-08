@@ -35,6 +35,16 @@ router.get("/", async(req, res) => {
     }
 })
 
+router.get("/top_rated", async (req, res) => {
+    try {
+        const products = await Product.find({}).sort({ rating: -1 }).limit(3);
+
+        res.status(200).json({ products: products });
+    } catch (err) {
+        res.json({ error: err.message })
+    }
+})
+
 
 router.get("/:id", async(req, res) => {
     try {
@@ -53,6 +63,7 @@ router.get("/:id", async(req, res) => {
         })
     }
 })
+
 
 
 router.post("/", isLoggedIn, Admin, async(req, res) => {

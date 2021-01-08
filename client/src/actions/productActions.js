@@ -139,5 +139,22 @@ const createProductReview = (id, reviewObj) => {
     }
 }
 
+const fetchTopProducts = () => {
+    return async function (dispatch) {
+        try {
+            dispatch({ type: "TOP_PRODUCTS_REQUEST" });
 
-export { fetchProductList, fetchProductDetail, deleteProduct, updateProduct, createProduct, createProductReview }
+
+            const res = await axios.get("/api/products/top_rated");
+        
+            dispatch({ type: "TOP_PRODUCTS_SUCCESS", payload: res.data.products });
+        
+        } catch (err) {
+            // console.log(err.response.data.error);
+            dispatch({ type: "TOP_PRODUCTS_ERROR", payload: err.response ? err.response.data.error : err.message });
+        }
+
+    }
+}
+
+export { fetchProductList, fetchProductDetail, deleteProduct, updateProduct, createProduct, createProductReview, fetchTopProducts }

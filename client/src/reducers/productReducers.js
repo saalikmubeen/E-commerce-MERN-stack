@@ -86,4 +86,18 @@ const createProductReviewReducer = (state = {}, action) => {
 }
 
 
-export { productListReducer, productDetailReducer, productDeleteReducer, productUpdateReducer, productCreateReducer, createProductReviewReducer };
+const fetchTopProductsReducer = (state = {}, action) => {
+    switch (action.type) {
+        case "TOP_PRODUCTS_REQUEST":
+            return { loading: true }
+        case "TOP_PRODUCTS_SUCCESS":
+            return { loading: false, products: action.payload }
+        case "TOP_PRODUCTS_ERROR":
+            return { loading: false, error: action.payload }
+        default:
+            return state
+    }
+}
+
+
+export { productListReducer, productDetailReducer, productDeleteReducer, productUpdateReducer, productCreateReducer, createProductReviewReducer, fetchTopProductsReducer };
