@@ -1,10 +1,9 @@
-# E-commerce-MERN-stack App
 ## ShopLinee - A fully fledged E-Commerce site build with MERN stack.
 
 
 ### Features
 * User authentication and authorization
-* Full featured shopping cart
+* Add and remove items from shopping cart
 * Product reviews and ratings
 * Top products carousel
 * Product pagination
@@ -20,7 +19,8 @@
 
 [Live Demo](https://shoplinee.herokuapp.com/)
 
-### Try playing with this site:
+#### Try playing with this site:
+  Use the following users to login: 
  * Customers:
       * john@example.com 
       * jane@expample.com
