@@ -1,6 +1,11 @@
+const dotenv = require('dotenv');
+dotenv.config();
+
 const mongoose = require('mongoose');
 
-mongoose.connect("mongodb://localhost/react-E-commerce", {
+const db_url = process.env.NODE_ENV === "production" ? process.env.MONGODB_URL : "mongodb://localhost/react-E-commerce";
+
+mongoose.connect(db_url, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
@@ -31,6 +36,7 @@ const importData = async () => {
         const createdProducts = await Product.insertMany(productsToBeCreated);
 
         console.log("Data imported")
+        console.log(createdProducts)
         process.exit();
     } catch (err) {
         console.error("Error: ", err);
