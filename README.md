@@ -17,7 +17,7 @@
 * Checkout process (shipping, payment method, etc)
 * PayPal / credit card integration
 
-[Live Demo](https://shoplinee.herokuapp.com/)
+[Live Demo](https://shoplinee.onrender.com)
 
 #### Try playing with this site:
   Use the following users to login: 
